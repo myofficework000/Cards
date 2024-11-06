@@ -30,7 +30,6 @@
 
 ## Adding the library to your project✨
 
-[![](https://jitpack.io/v/aritra-tech/ComposeCards.svg)](https://jitpack.io/#aritra-tech/ComposeCards)
 
 Add the following to your **root** `build.gradle` file:
 ```gradle
@@ -49,7 +48,7 @@ Lastly, add the following dependency to your app's `build.gradle.kts` (Kotlin) o
 
 ```kotlin
 dependencies {
-    implementation("com.github.code4galaxy-cards:Cards:$currentVersion")
+        implementation ("com.github.myofficework000:Cards:1.0.0") // Jitoack IO version
 }
 ```
 </details>
@@ -57,13 +56,6 @@ dependencies {
 <details>
 <summary>Groovy</summary>
 <br>
-
-```kotlin
-dependencies {
-    implementation ("com.github.code4galaxy-cards:Cards:$currentVersion")
-}
-```
-</details>
 
 ## Usage📓
 You can use the `CardDetails` by simply passing this to the screen you want to use. For example:
