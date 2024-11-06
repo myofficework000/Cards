@@ -6,9 +6,6 @@
   <img alt="API" src="https://img.shields.io/badge/Api%2021+-50f270?logo=android&logoColor=black&style=for-the-badge"/></a>
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-a503fc?logo=kotlin&logoColor=white&style=for-the-badge"/></a>
   <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a>
-    <a href="https://github.com/aritra-tech/ComposeCards/stargazers"><img src="https://img.shields.io/github/stars/aritra-tech/ComposeCards?color=ffff00&style=for-the-badge"/>
-  <a href="https://hits.sh/github.com/aritra-tech/ComposeCards/"><img alt="Hits" src="https://hits.sh/github.com/aritra-tech/ComposeCards.svg?style=for-the-badge&label=Views&extraCount=10&color=54856b"/></a>
-  <a href="https://github.com/aritra-tech/ComposeCards/releases/latest"><img src="https://img.shields.io/github/v/release/aritra-tech/ComposeCards?color=purple&include_prereleases&logo=github&style=for-the-badge"/>
 </p>
 	  
 <p align="center"> 💳 ComposeCards is a beautifully designed payment view library for Credit and Debit Cards. Made using Jetpack Compose 🎉. It allows you to easily integrate Payment View with much smooth UI and animations. </p>
