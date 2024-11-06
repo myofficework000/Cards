@@ -62,9 +62,9 @@ dependencies {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId = "com.github.code4galaxy-tech"
+            groupId = "com.code4galaxy.compose_cards"
             artifactId = "ComposeCards"
-            version = "1.1.3"
+            version = "1.0.0"
 
             afterEvaluate {
                 from(components["release"])
