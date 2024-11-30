@@ -48,7 +48,7 @@ Lastly, add the following dependency to your app's `build.gradle.kts` (Kotlin) o
 
 ```kotlin
 dependencies {
-        implementation ("com.github.myofficework000:Cards:1.0.0") // Jitoack IO version
+        implementation ("com.github.myofficework000:Cards:1.0.0")
 }
 ```
 </details>
