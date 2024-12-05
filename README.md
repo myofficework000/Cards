@@ -1,4 +1,4 @@
-<h1 align="center">ComposeCard</h1></br>
+<h1 align="center">Compose Card Provider</h1></br>
 
 </h1>
 <p align="center">
@@ -28,7 +28,7 @@
 - 🤩Simple VisualTransformation subclasses for the following use cases:
   - Card number (with custom separators, digit masking)
 
-## Adding the library to your project✨
+## Steps to Add the library to your project✨
 
 
 Add the following to your **root** `build.gradle` file:
