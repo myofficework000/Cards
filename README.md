@@ -72,8 +72,6 @@ class MainActivity : ComponentActivity() {
 }
 ```
 ## License
-
-```
 Copyright 2024 Abhishek Pathak
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -87,3 +85,23 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+## Setup Requirements
+
+- An Android device or emulator 📱
+- Android Studio 💻
+
+## Getting Started
+
+Ready to try it out yourself? Here's what to do:
+
+1. Clone this project 🐑
+2. Import the project into Android Studio 🚀
+3. Connect your Android device via USB or start your emulator 🌐
+4. Once the project has finished setting up, click the "run" button 🏃‍♂️
+
+## Support
+
+- Did you find this project useful? Show some love by clicking the ⭐️ button in the upper right corner! ❤️
+- Notice anything else missing? File an issue 🚨
+- Want to contribute? Whether it's fixing typos in docs or reviewing code, we welcome all contributions! 🤝
