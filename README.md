@@ -1,9 +1,9 @@
-<h1 align="center">ComposeCard</h1></br>
+<h1 align="center">Compose Card In Jetpack Compose as Library</h1></br>
 
 </h1>
 <p align="center">
  <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-palegreen?style=for-the-badge&logoColor=black&logo=material-you"/></a>
-  <img alt="API" src="https://img.shields.io/badge/Api%2021+-50f270?logo=android&logoColor=black&style=for-the-badge"/></a>
+  <img alt="API" src="https://img.shields.io/badge/Api%2023+-50f270?logo=android&logoColor=black&style=for-the-badge"/></a>
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-a503fc?logo=kotlin&logoColor=white&style=for-the-badge"/></a>
 <<<<<<< HEAD
   <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a>
@@ -32,7 +32,7 @@
 - 🤩Simple VisualTransformation subclasses for the following use cases:
   - Card number (with custom separators, digit masking)
 
-## Adding the library to your project✨
+## Steps to Add the library to your project✨
 
 
 Add the following to your **root** `build.gradle` file:
@@ -52,7 +52,7 @@ Lastly, add the following dependency to your app's `build.gradle.kts` (Kotlin) o
 
 ```kotlin
 dependencies {
-        implementation ("com.github.myofficework000:Cards:1.0.0") // Jitoack IO version
+        implementation ("com.github.myofficework000:Cards:1.0.0")
 }
 ```
 </details>
@@ -76,8 +76,6 @@ class MainActivity : ComponentActivity() {
 }
 ```
 ## License
-
-```
 Copyright 2024 Abhishek Pathak
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -91,3 +89,23 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+## Setup Requirements
+
+- An Android device or emulator 📱
+- Android Studio 💻
+
+## Getting Started
+
+Ready to try it out yourself? Here's what to do:
+
+1. Clone this project 🐑
+2. Import the project into Android Studio 🚀
+3. Connect your Android device via USB or start your emulator 🌐
+4. Once the project has finished setting up, click the "run" button 🏃‍♂️
+
+## Support
+
+- Did you find this project useful? Show some love by clicking the ⭐️ button in the upper right corner! ❤️
+- Notice anything else missing? File an issue 🚨
+- Want to contribute? Whether it's fixing typos in docs or reviewing code, we welcome all contributions! 🤝
