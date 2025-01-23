@@ -68,6 +68,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     //implementation (project(":cards")) Local version
-    implementation ("com.github.myofficework000:Cards:1.0.0") // Jitoack IO version
-
+    implementation ("com.github.myofficework000:Cards:1.0.0")
 }

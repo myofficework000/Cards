@@ -5,7 +5,10 @@
  <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-palegreen?style=for-the-badge&logoColor=black&logo=material-you"/></a>
   <img alt="API" src="https://img.shields.io/badge/Api%2021+-50f270?logo=android&logoColor=black&style=for-the-badge"/></a>
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-a503fc?logo=kotlin&logoColor=white&style=for-the-badge"/></a>
+<<<<<<< HEAD
   <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a>
+=======
+>>>>>>> 6c1bec2e3f20997eab54f8476115fcd755eb2891
 </p>
 	  
 <p align="center"> 💳 ComposeCards is a beautifully designed payment view library for Credit and Debit Cards. Made using Jetpack Compose 🎉. It allows you to easily integrate Payment View with much smooth UI and animations. </p>
@@ -31,7 +34,6 @@
 
 ## Adding the library to your project✨
 
-[![](https://jitpack.io/v/aritra-tech/ComposeCards.svg)](https://jitpack.io/#aritra-tech/ComposeCards)
 
 Add the following to your **root** `build.gradle` file:
 ```gradle
@@ -50,7 +52,7 @@ Lastly, add the following dependency to your app's `build.gradle.kts` (Kotlin) o
 
 ```kotlin
 dependencies {
-    implementation("com.github.code4galaxy-cards:Cards:$currentVersion")
+        implementation ("com.github.myofficework000:Cards:1.0.0") // Jitoack IO version
 }
 ```
 </details>
@@ -58,13 +60,6 @@ dependencies {
 <details>
 <summary>Groovy</summary>
 <br>
-
-```kotlin
-dependencies {
-    implementation ("com.github.code4galaxy-cards:Cards:$currentVersion")
-}
-```
-</details>
 
 ## Usage📓
 You can use the `CardDetails` by simply passing this to the screen you want to use. For example:
