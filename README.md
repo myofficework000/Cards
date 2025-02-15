@@ -104,8 +104,11 @@ Ready to try it out yourself? Here's what to do:
 3. Connect your Android device via USB or start your emulator 🌐
 4. Once the project has finished setting up, click the "run" button 🏃‍♂️
 
-## Support
+### Contact - Let's become friend
+- [Github](https://github.com/cheetahmail007)
+- [Linkedin](https://www.linkedin.com/in/myofficework/)
+- [MEDIUM](https://medium.com/@myofficework000)
 
-- Did you find this project useful? Show some love by clicking the ⭐️ button in the upper right corner! ❤️
-- Notice anything else missing? File an issue 🚨
-- Want to contribute? Whether it's fixing typos in docs or reviewing code, we welcome all contributions! 🤝
+<p>
+Don't forget to star ⭐ the repo it motivates me to share more open source
+</p>
