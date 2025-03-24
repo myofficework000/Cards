@@ -1,4 +1,4 @@
-<h1 align="center">Compose Card In Jetpack Compose as Library</h1></br>
+<h1 align="center">Compose Card In Jetpack Compose Library</h1></br>
 
 </h1>
 <p align="center">
