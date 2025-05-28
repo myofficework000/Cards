@@ -27,7 +27,8 @@
   - RuPay
   - American Express
   - Maestro
-  - Diners Club
+  - Diners Club 
+    etc
 
 - 🤩Simple VisualTransformation subclasses for the following use cases:
   - Card number (with custom separators, digit masking)
