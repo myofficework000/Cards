@@ -33,7 +33,7 @@
 - 🤩Simple VisualTransformation subclasses for the following use cases:
   - Card number (with custom separators, digit masking)
 
-## Steps to Add the library to your project✨
+## Steps to Add the library to your project
 
 
 Add the following to your **root** `build.gradle` file:
