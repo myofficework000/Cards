@@ -1,304 +1,181 @@
 package com.code4galaxy.compose_cards.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.code4galaxy.compose_cards.util.Card
+import com.code4galaxy.compose_cards.util.detectCard
 
 /**
- * Composable function to display a Credit Card view with animated flip functionality.
- *
- * @param cardNumber The text input for the credit card number.
- * @param holderName The text input for the cardholder's name.
- * @param expiryDate The text input for the card's expiry date.
- * @param cardCVV The text input for the card's CVV (Card Verification Value) number.
+ * A Material 3 payment-card preview. The back is shown while the CVV field is focused.
+ * This composable displays input only; it never stores or submits card data.
  */
+@Composable
+fun CreditCard(
+    cardNumber: String,
+    holderName: String,
+    expiryDate: String,
+    cardCvv: String,
+    modifier: Modifier = Modifier,
+    isBackVisible: Boolean = false,
+) {
+    val card = detectCard(cardNumber)
+    val rotation by animateFloatAsState(
+        targetValue = if (isBackVisible) 180f else 0f,
+        animationSpec = tween(durationMillis = 450),
+        label = "cardRotation",
+    )
+    val visibleNumber = cardNumber.filter(Char::isDigit).take(19)
+        .ifBlank { "••••••••••••••••" }
+        .chunked(4)
+        .joinToString(" ")
+    val visibleExpiry = expiryDate.filter(Char::isDigit).take(4)
+        .chunked(2)
+        .joinToString(" / ")
+        .ifBlank { "MM / YY" }
 
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .widthIn(max = 520.dp)
+            .height(212.dp)
+            .graphicsLayer {
+                rotationY = rotation
+                cameraDistance = 12f * density
+            }
+            .semantics { contentDescription = "${card.displayName} card preview" },
+        shape = RoundedCornerShape(24.dp),
+        color = card.color,
+        contentColor = Color.White,
+        shadowElevation = 10.dp,
+    ) {
+        Box(modifier = Modifier.fillMaxSize().padding(20.dp)) {
+            AnimatedVisibility(visible = !isBackVisible) {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Top,
+                    ) {
+                        Surface(
+                            modifier = Modifier.widthIn(min = 46.dp),
+                            shape = RoundedCornerShape(8.dp),
+                            color = Color.White.copy(alpha = 0.18f),
+                        ) {
+                            Text(
+                                text = "CHIP",
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
+                            )
+                        }
+                        card.image?.let { image ->
+                            Image(
+                                painter = painterResource(image),
+                                contentDescription = "${card.displayName} logo",
+                            )
+                        }
+                    }
+                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = visibleNumber,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontFamily = FontFamily.Monospace,
+                            fontWeight = FontWeight.SemiBold,
+                        ),
+                        maxLines = 1,
+                    )
+                    Spacer(Modifier.height(18.dp))
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        CardLabel(label = "CARDHOLDER", value = holderName.ifBlank { "YOUR NAME" })
+                        CardLabel(label = "EXPIRES", value = visibleExpiry, alignEnd = true)
+                    }
+                }
+            }
 
+            AnimatedVisibility(visible = isBackVisible) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .graphicsLayer { rotationY = 180f },
+                ) {
+                    Spacer(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(46.dp)
+                            .background(Color.Black.copy(alpha = 0.82f)),
+                    )
+                    Spacer(Modifier.height(22.dp))
+                    Text("AUTHORIZED SIGNATURE", style = MaterialTheme.typography.labelSmall)
+                    Surface(
+                        modifier = Modifier.fillMaxWidth().padding(top = 5.dp),
+                        color = Color.White,
+                        shape = RoundedCornerShape(6.dp),
+                    ) {
+                        Text(
+                            text = cardCvv.filter(Char::isDigit).take(if (card == Card.AmericanExpress) 4 else 3).padEnd(3, '•'),
+                            color = Color.Black,
+                            style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Monospace),
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                    Text(card.displayName.uppercase(), style = MaterialTheme.typography.labelLarge)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CardLabel(label: String, value: String, alignEnd: Boolean = false) {
+    Column(horizontalAlignment = if (alignEnd) Alignment.End else Alignment.Start) {
+        Text(label, style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.72f))
+        Text(value.uppercase(), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, maxLines = 1)
+    }
+}
+
+/** Compatibility overload for existing integrations using [TextFieldValue]. */
 @Composable
 fun CreditCard(
     cardNumber: TextFieldValue,
     holderName: TextFieldValue,
     expiryDate: TextFieldValue,
-    cardCVV: TextFieldValue
-) {
+    cardCVV: TextFieldValue,
+) = CreditCard(cardNumber.text, holderName.text, expiryDate.text, cardCVV.text)
 
-    // Mutable state to track the flip state of the card
-    var backSwitch by remember { mutableStateOf(false) }
-
-    // Mutable state to track the detected card type (Visa, Mastercard, etc.)
-    var cardType by remember { mutableStateOf(Card.None) }
-
-    // Calculate the length of the card number and mask it for display
-    val length = if (cardNumber.text.length > 16) 16 else cardNumber.text.length
-    val maskedNumber =
-        remember { "*****************" }.replaceRange(0..length, cardNumber.text.take(16))
-
-
-    val cvv = if (cardCVV.text.length > 3) 3 else cardCVV.text.length
-    val maskedCVV = remember { "*".repeat(3) }.replaceRange(0 until cvv, cardCVV.text.take(3))
-
-    // Determine whether to switch to the back side of the card based on CVV length
-    if (cardCVV.text.length == 1 && !backSwitch) {
-        backSwitch = true
-    } else if (cardCVV.text.length == 2) {
-        backSwitch = true
-    } else if (cardCVV.text.length == 3) {
-        backSwitch = false
-    }
-
-    // Detect and set the card type logo based on the card number's first digit
-    cardType = when {
-        cardNumber.text.isNotEmpty() -> {
-            when (cardNumber.text.take(2)) {
-                "30", "36", "38" -> Card.DinersClub
-                "40" -> Card.Visa
-                "50", "51", "52", "53", "54", "55" -> Card.Mastercard
-                "56","57", "58", "63", "67" -> Card.Maestro
-                "60" -> Card.RuPay
-                "37" -> Card.AmericanExpress
-                else -> Card.None
-            }
-        }
-
-        else -> Card.None
-    }
-
-    // Set the card's background color based on its type
-    val animatedColor = animateColorAsState(
-        targetValue =
-        when (cardType) {
-            Card.Visa -> {
-                Color(0xFF1C478B)
-            }
-
-            Card.Mastercard -> {
-                Color(0xFF3BB9A1)
-            }
-
-            Card.RuPay -> {
-                Color(0xFFB2B1FD)
-            }
-
-            Card.AmericanExpress -> {
-                Color(0xFFA671FC)
-            }
-
-            Card.Maestro -> {
-                Color(0xFF99BEF8)
-            }
-
-            Card.DinersClub -> {
-                Color(0xFFFC4444)
-            }
-            else -> {
-                MaterialTheme.colors.onBackground
-            }
-        },
-        label = ""
-    )
-
-    Box {
-        Surface(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(200.dp)
-                .graphicsLayer(
-                    rotationY = animateFloatAsState(
-                        if (backSwitch) 180f else 0f,
-                        label = "",
-                        animationSpec = tween(500),
-                    ).value,
-                    translationY = 0f
-                )
-                .clickable {
-                    backSwitch = !backSwitch
-                },
-            shape = RoundedCornerShape(20.dp),
-            color = animatedColor.value,
-            elevation = 18.dp
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                AnimatedVisibility(visible = !backSwitch) {
-                    ConstraintLayout(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-
-                        val (cardImage, cardName, cardHolderName, number, cardExpiry, expiry) = createRefs()
-
-                        AnimatedVisibility(visible = cardType != Card.None,
-                            modifier = Modifier
-                                .padding(start = 12.dp, top = 10.dp)
-                                .constrainAs(cardImage) {
-                                    start.linkTo(parent.start)
-                                    top.linkTo(parent.top)
-                                }) {
-                            Image(
-                                painter = painterResource(id = cardType.image),
-                                contentDescription = "Card Image"
-                            )
-                        }
-
-                        Text(
-                            text = maskedNumber.chunked(4).joinToString(" "),
-                            style = MaterialTheme.typography.h5,
-                            maxLines = 1,
-                            color = Color.White,
-                            modifier = Modifier
-                                .animateContentSize(spring())
-                                .padding(bottom = 20.dp)
-                                .constrainAs(number) {
-                                    linkTo(
-                                        start = parent.start,
-                                        end = parent.end
-                                    )
-                                    linkTo(
-                                        top = parent.top,
-                                        bottom = parent.bottom
-                                    )
-                                }
-                        )
-
-                        Text(
-                            text = "Card Holder Name",
-                            color = Color.White,
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .constrainAs(cardHolderName) {
-                                    start.linkTo(parent.start)
-                                    bottom.linkTo(cardName.top)
-                                }
-                        )
-
-                        Text(
-                            text = holderName.text,
-                            color = Color.White,
-                            modifier = Modifier
-                                .animateContentSize(TweenSpec(300))
-                                .padding(top = 10.dp, start = 16.dp, bottom = 16.dp)
-                                .constrainAs(cardName) {
-                                    start.linkTo(parent.start)
-                                    bottom.linkTo(parent.bottom)
-                                }
-                        )
-
-                        Text(
-                            text = "Expiry Date",
-                            color = Color.White,
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .constrainAs(expiry) {
-                                    end.linkTo(parent.end)
-                                    bottom.linkTo(cardExpiry.top)
-                                }
-                        )
-
-                        Text(
-                            text = expiryDate.text.take(4).chunked(2).joinToString(" / "),
-                            color = Color.White,
-                            modifier = Modifier
-                                .padding(top = 10.dp, end = 16.dp, bottom = 16.dp)
-                                .constrainAs(cardExpiry) {
-                                    end.linkTo(parent.end)
-                                    bottom.linkTo(parent.bottom)
-                                }
-                        )
-                    }
-                }
-
-                AnimatedVisibility(visible = backSwitch) {
-                    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-                        val (back) = createRefs()
-                        Spacer(modifier = Modifier
-                            .height(50.dp)
-                            .background(
-                                Color.Black
-                            )
-                            .fillMaxWidth()
-                            .constrainAs(back) {
-                                linkTo(
-                                    top = parent.top,
-                                    bottom = parent.bottom
-                                )
-                            }
-                        )
-                    }
-                }
-            }
-        }
-
-        AnimatedVisibility(
-            visible = backSwitch,
-            modifier = Modifier
-                .padding(end = 50.dp, bottom = 50.dp)
-                .align(Alignment.BottomEnd)
-        ) {
-            Box(
-                modifier = Modifier
-                    .defaultMinSize(minWidth = 60.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = maskedCVV,
-                    style = MaterialTheme.typography.h6,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .animateContentSize(TweenSpec(300))
-                        .padding(vertical = 4.dp, horizontal = 16.dp)
-
-                )
-            }
-
-        }
-    }
-}
-
-
-@Preview
+@Preview(showBackground = true, backgroundColor = 0xFFF6F3FF)
 @Composable
-fun PreviewPaymentCard() {
-    CreditCard(
-        TextFieldValue("*****************"),
-        TextFieldValue("Aritra Das"),
-        TextFieldValue("0229"),
-        TextFieldValue("699")
-    )
+private fun CreditCardPreview() {
+    CreditCard("4111111111111111", "Taylor Morgan", "1228", "123")
 }

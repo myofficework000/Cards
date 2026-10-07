@@ -5,30 +5,23 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 
-private val cardNumberOffsetTranslation = object : OffsetMapping {
-    override fun originalToTransformed(offset: Int): Int {
-        if (offset <= 3) return offset
-        if (offset <= 7) return offset + 1
-        if (offset <= 11) return offset + 2
-        if (offset <= 16) return offset + 3
-        return 19
-    }
-
-    override fun transformedToOriginal(offset: Int): Int {
-        if (offset <= 4) return offset
-        if (offset <= 9) return offset - 1
-        if (offset <= 14) return offset - 2
-        if (offset <= 19) return offset - 3
-        return 16
-    }
-}
-
+/** Formats up to 19 digits as groups of four without mutating the source input. */
 val CardNumberFilter = VisualTransformation { text ->
-    val trimmed = if (text.text.length >= 16) text.text.substring(0..15) else text.text
-    var space = ""
-    for (i in trimmed.indices) {
-        space += trimmed[i]
-        if (i % 4 == 3 && i != 15) space += " "
-    }
-    TransformedText(AnnotatedString(space), cardNumberOffsetTranslation)
+    val digits = text.text.filter(Char::isDigit).take(19)
+    val formatted = digits.chunked(4).joinToString(" ")
+
+    TransformedText(
+        text = AnnotatedString(formatted),
+        offsetMapping = object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int {
+                val safeOffset = offset.coerceIn(0, digits.length)
+                return (safeOffset + ((safeOffset - 1).coerceAtLeast(0) / 4))
+                    .coerceAtMost(formatted.length)
+            }
+
+            override fun transformedToOriginal(offset: Int): Int = formatted
+                .take(offset.coerceIn(0, formatted.length))
+                .count(Char::isDigit)
+        },
+    )
 }
