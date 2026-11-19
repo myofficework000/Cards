@@ -19,4 +19,11 @@ class CardDetectionTest {
     fun returnsNoneForAnUnknownPrefix() {
         assertEquals(Card.None, detectCard("990000"))
     }
+
+    @Test
+    fun validatesCardNumbersWithTheLuhnChecksum() {
+        assertEquals(true, isValidCardNumber("4111 1111 1111 1111"))
+        assertEquals(false, isValidCardNumber("4111 1111 1111 1112"))
+        assertEquals(false, isValidCardNumber("4111 1111"))
+    }
 }

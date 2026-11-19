@@ -32,3 +32,15 @@ fun detectCard(number: String): Card {
         else -> Card.None
     }
 }
+
+/** Returns true when [number] is a plausible PAN with a valid Luhn check digit. */
+fun isValidCardNumber(number: String): Boolean {
+    val digits = number.filter(Char::isDigit)
+    if (digits.length !in 12..19) return false
+
+    val checksum = digits.reversed().mapIndexed { index, digit ->
+        val value = digit.digitToInt()
+        if (index % 2 == 1) (value * 2).let { if (it > 9) it - 9 else it } else value
+    }.sum()
+    return checksum % 10 == 0
+}

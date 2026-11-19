@@ -29,6 +29,7 @@ import com.code4galaxy.compose_cards.component.InputTextField
 import com.code4galaxy.compose_cards.ui.CreditCard
 import com.code4galaxy.compose_cards.util.Card
 import com.code4galaxy.compose_cards.util.detectCard
+import com.code4galaxy.compose_cards.util.isValidCardNumber
 
 /** Non-sensitive values surfaced when the user taps Save. Do not persist raw PAN/CVV. */
 data class CardInput(
@@ -110,7 +111,7 @@ fun CardDetails(
                 onSave(CardInput(cardNumber, cardHolderName, expiryDate, cardCvv))
             },
             modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
-            enabled = cardNumber.length >= 12 && cardHolderName.isNotBlank() && expiryDate.length == 4 && cardCvv.length == maxCvvLength,
+            enabled = isValidCardNumber(cardNumber) && cardHolderName.isNotBlank() && expiryDate.length == 4 && cardCvv.length == maxCvvLength,
         ) {
             Text("Save card details", modifier = Modifier.padding(vertical = 5.dp))
         }
